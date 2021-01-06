@@ -2,6 +2,8 @@ version: '2.3'
 services:
   xserver:
     image: devrt/xserver
+    container_name: ros_xserver
+    restart: unless-stopped
     ipc: host
     security_opt:
     - seccomp:unconfined
@@ -12,7 +14,9 @@ services:
       interval: "1s"
       retries: 20
   simulator:
-    image: devrt/simulator-empty
+    image: devrt/simulator-turtlebot3
+    container_name: ros_simulator
+    restart: unless-stopped
     ipc: host
     security_opt:
     - seccomp:unconfined
@@ -26,6 +30,8 @@ services:
     # env_file:
     #   - .env
     image: devrt/ros-devcontainer-vscode:melodic-desktop
+    container_name: ros_workspace
+    restart: unless-stopped
     ipc: host
     security_opt:
     - seccomp:unconfined
@@ -43,5 +49,14 @@ services:
     - simulator
     depends_on:
     - xserver
+  web:
+    build: ./html
+    image: wn1980/webserver
+    container_name: ros_webserver
+    restart: unless-stopped
+    depends_on:
+    - workspace
+    ports:
+    - "8080:80"
 volumes:
   workspace:
