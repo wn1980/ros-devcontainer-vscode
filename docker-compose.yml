@@ -1,7 +1,8 @@
 version: '2.3'
 services:
   xserver:
-    image: devrt/xserver
+    build: ./xserver
+    image: wn1980/xserver
     container_name: ros_xserver
     restart: unless-stopped
     ipc: host
