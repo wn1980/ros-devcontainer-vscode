@@ -15,7 +15,8 @@ services:
       interval: "1s"
       retries: 20
   simulator:
-    image: devrt/simulator-empty
+    build: ./sim
+    image: devrt/simulator-turtlebot3
     container_name: ros_simulator
     #    restart: unless-stopped
     ipc: host
