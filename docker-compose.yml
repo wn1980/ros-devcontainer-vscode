@@ -9,13 +9,13 @@ services:
     security_opt:
     - seccomp:unconfined
     ports:
-    - "3000:80"
+    - "3000:6900"
     healthcheck:
       test: ["CMD-SHELL", "test -e /tmp/.X11-unix/X0"]
       interval: "1s"
       retries: 20
   simulator:
-    image: devrt/simulator-turtlebot3
+    image: devrt/simulator-turtlesim
     container_name: ros_simulator
     restart: unless-stopped
     ipc: host
