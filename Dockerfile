@@ -1,4 +1,5 @@
-ARG BASE_IMAGE=ros:melodic
+#ARG BASE_IMAGE=ros:melodic
+ARG BASE_IMAGE=wn1980/w-ros-kinetic
 
 FROM maven AS xsdcache
 
@@ -63,14 +64,14 @@ RUN apt-get update && apt-get upgrade -y && \
     apt-get clean
 
 # install bio_ik
-RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
-    mkdir -p /bio_ik_ws/src && \
-    cd /bio_ik_ws/src && \
-    catkin_init_workspace && \
-    git clone --depth=1 https://github.com/TAMS-Group/bio_ik.git && \
-    cd .. && \
-    catkin_make install -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros/$ROS_DISTRO -DCATKIN_ENABLE_TESTING=0 && \
-    cd / && rm -r /bio_ik_ws
+#RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
+#    mkdir -p /bio_ik_ws/src && \
+#    cd /bio_ik_ws/src && \
+#    catkin_init_workspace && \
+#    git clone --depth=1 https://github.com/TAMS-Group/bio_ik.git && \
+#    cd .. && \
+#    catkin_make install -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros/$ROS_DISTRO -DCATKIN_ENABLE_TESTING=0 && \
+#    cd / && rm -r /bio_ik_ws
 
 # basic python packages
 RUN if [ $(lsb_release -cs) = "focal" ]; then apt-get install -y python-is-python3; fi && \

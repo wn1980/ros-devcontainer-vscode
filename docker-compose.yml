@@ -15,9 +15,9 @@ services:
       interval: "1s"
       retries: 20
   simulator:
-    image: devrt/simulator-turtlesim
+    image: devrt/simulator-empty
     container_name: ros_simulator
-    restart: unless-stopped
+    #    restart: unless-stopped
     ipc: host
     security_opt:
     - seccomp:unconfined
@@ -30,7 +30,8 @@ services:
   workspace:
     # env_file:
     #   - .env
-    image: devrt/ros-devcontainer-vscode:melodic-desktop
+    build: .
+    image: devrt/ros-dev
     container_name: ros_workspace
     restart: unless-stopped
     ipc: host
