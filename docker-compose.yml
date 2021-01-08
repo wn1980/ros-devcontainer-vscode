@@ -15,8 +15,9 @@ services:
       interval: "1s"
       retries: 20
   simulator:
-    build: ./sim
-    image: devrt/simulator-turtlebot3
+    build: ./turtlebot2
+    image: wn1980/simulator
+#    image: devrt/simulator-empty
     container_name: ros_simulator
     #    restart: unless-stopped
     ipc: host
@@ -32,8 +33,9 @@ services:
     # env_file:
     #   - .env
     build: .
-    image: devrt/ros-ops
+    image: wn1980/ros-ops
     container_name: ros_workspace
+#    hostname: ros-ops
     restart: unless-stopped
     ipc: host
     security_opt:

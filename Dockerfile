@@ -109,11 +109,11 @@ RUN echo "export LESS='-R'" >> ~/.bash_profile && \
     echo "export LESSOPEN='|pygmentize -g %s'" >> ~/.bash_profile
 
 # enable bash completion
-#RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
-#    ~/.bash_it/install.sh --silent && \
-#    rm ~/.bashrc.bak && \
-#    echo "source /usr/share/bash-completion/bash_completion" >> ~/.bashrc && \
-#    bash -i -c "bash-it enable completion git"
+RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
+    ~/.bash_it/install.sh --silent && \
+    rm ~/.bashrc.bak && \
+    echo "source /usr/share/bash-completion/bash_completion" >> ~/.bashrc && \
+    bash -i -c "bash-it enable completion git"
 
 RUN echo 'eval "$(register-python-argcomplete sim)"' >> ~/.bashrc
 
