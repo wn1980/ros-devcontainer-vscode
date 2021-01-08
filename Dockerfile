@@ -109,11 +109,11 @@ RUN echo "export LESS='-R'" >> ~/.bash_profile && \
     echo "export LESSOPEN='|pygmentize -g %s'" >> ~/.bash_profile
 
 # enable bash completion
-RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
-    ~/.bash_it/install.sh --silent && \
-    rm ~/.bashrc.bak && \
-    echo "source /usr/share/bash-completion/bash_completion" >> ~/.bashrc && \
-    bash -i -c "bash-it enable completion git"
+#RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it && \
+#    ~/.bash_it/install.sh --silent && \
+#    rm ~/.bashrc.bak && \
+#    echo "source /usr/share/bash-completion/bash_completion" >> ~/.bashrc && \
+#    bash -i -c "bash-it enable completion git"
 
 RUN echo 'eval "$(register-python-argcomplete sim)"' >> ~/.bashrc
 
@@ -134,7 +134,8 @@ ADD .devcontainer/templates /home/developer/templates
 RUN sudo chown -R developer:developer /home/developer
 
 # install theia web IDE
-COPY .devcontainer/theia-latest.package.json /home/developer/package.json
+#COPY .devcontainer/theia-latest.package.json /home/developer/package.json
+COPY .devcontainer/latest.package.json /home/developer/package.json
 RUN yarn --cache-folder ./ycache && rm -rf ./ycache && \
     NODE_OPTIONS="--max_old_space_size=4096" yarn theia build && \
     yarn theia download:plugins

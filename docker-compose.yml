@@ -32,7 +32,7 @@ services:
     # env_file:
     #   - .env
     build: .
-    image: devrt/ros-dev
+    image: devrt/ros-ops
     container_name: ros_workspace
     restart: unless-stopped
     ipc: host
