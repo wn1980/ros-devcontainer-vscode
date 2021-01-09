@@ -19,6 +19,6 @@ ADD ros_entrypoint.sh /
 
 ADD supervisord.conf /etc/supervisor/supervisord.conf
 
-VOLUME /opt/ros/melodic/share/turtlebot3_description
+#VOLUME /opt/ros/melodic/share/turtlebot3_description
 
 CMD ["/usr/local/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]

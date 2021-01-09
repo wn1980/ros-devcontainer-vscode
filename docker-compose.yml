@@ -14,21 +14,21 @@ services:
       test: ["CMD-SHELL", "test -e /tmp/.X11-unix/X0"]
       interval: "1s"
       retries: 20
-  simulator:
-    build: ./turtlebot2
-    image: wn1980/simulator
+#  simulator:
+#    build: ./turtlebot2
+#    image: wn1980/simulator
 #    image: devrt/simulator-empty
-    container_name: ros_simulator
-    #    restart: unless-stopped
-    ipc: host
-    security_opt:
-    - seccomp:unconfined
-    environment:
-    - DISPLAY=:0
-    volumes_from:
-    - xserver
-    depends_on:
-    - xserver
+#    container_name: ros_simulator
+#    restart: unless-stopped
+#    ipc: host
+#    security_opt:
+#    - seccomp:unconfined
+#    environment:
+#    - DISPLAY=:0
+#    volumes_from:
+#    - xserver
+#    depends_on:
+#    - xserver
   workspace:
     # env_file:
     #   - .env
@@ -48,10 +48,10 @@ services:
     - ~/.gitconfig:/home/developer/.gitconfig
     environment:
     - DISPLAY=:0
-    - ROS_MASTER_URI=http://simulator:11311/
+#    - ROS_MASTER_URI=http://simulator:11311/
     volumes_from:
     - xserver
-    - simulator
+#    - simulator
     depends_on:
     - xserver
   web:
