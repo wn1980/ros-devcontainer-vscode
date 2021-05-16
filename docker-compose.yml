@@ -1,9 +1,11 @@
-version: '2.3'
+version: '2.4'
+
 services:
   xserver:
     build: ./xserver
     image: wn1980/xserver
     container_name: ros_xserver
+    init: true
     restart: unless-stopped
     ipc: host
     security_opt:
@@ -19,6 +21,7 @@ services:
     #    image: wn1980/simulator
     image: devrt/simulator-turtlebot3
     container_name: ros_simulator
+    init: true
     restart: unless-stopped
     ipc: host
     security_opt:
@@ -36,6 +39,7 @@ services:
     image: wn1980/ros-ops
     container_name: ros_workspace
     #    hostname: ros-ops
+    init: true
     restart: unless-stopped
     ipc: host
     security_opt:
@@ -58,6 +62,7 @@ services:
     build: ./html
     image: wn1980/webserver
     container_name: ros_webserver
+    init: true
     restart: unless-stopped
     depends_on:
     - workspace
