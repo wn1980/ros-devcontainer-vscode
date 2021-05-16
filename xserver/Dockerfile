@@ -1,11 +1,11 @@
-FROM node:12 AS novnc
+#FROM node:12 AS novnc
 
 # noVNC with chrome77 workaround patch
-RUN git clone https://github.com/phcapde/noVNC.git /novnc
+#RUN git clone https://github.com/novnc/noVNC.git /novnc
 
-RUN cd /novnc && \
-    npm install && \
-    ./utils/use_require.js --as commonjs --with-app --clean
+#RUN cd /novnc && \
+#    npm install && \
+#    ./utils/use_require.js --as commonjs --with-app --clean
 
 FROM ubuntu:18.04
 
@@ -14,6 +14,17 @@ MAINTAINER Yosuke Matsusaka <yosuke.matsusaka@gmail.com>
 ENV DISPLAY ":0"
 
 ENV DEBIAN_FRONTEND noninteractive
+
+#install noVNC
+COPY ./*.tar.gz /
+
+ENV NO_VNC_HOME=/novnc
+
+RUN mkdir -p $NO_VNC_HOME/utils/websockify && \
+	tar xzfv noVNC-1.2.0.tar.gz --strip 1 -C $NO_VNC_HOME && \
+	tar xzfv websockify-0.9.0.tar.gz --strip 1 -C $NO_VNC_HOME/utils/websockify && \
+	chmod +x -v $NO_VNC_HOME/utils/*.sh && \
+	rm -f noVNC-1.2.0.tar.gz websockify-0.9.0.tar.gz
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
@@ -25,24 +36,27 @@ RUN apt-get update && \
     x11-xkb-utils \
     xkb-data \
     dbus-x11 \
-    python3 \
-    python3-pip \
+ #   python3 \
+ #   python3-pip \
     supervisor \
     tigervnc-standalone-server && \
-    pip3 install -U setuptools wheel && \
-    pip3 install -U websockify && \
-    apt-get remove -y python3-pip && \
+#    pip3 install -U setuptools wheel && \
+#    pip3 install -U websockify && \
+#    apt-get remove -y python3-pip && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=novnc /novnc/build /novnc
+#COPY --from=novnc /novnc/build /novnc
 
 COPY . /app
 
-RUN cp /app/index.html /app/vnc_min.html /novnc/
+#RUN cp /app/index.html /app/vnc_min.html /novnc/
+RUN cp /app/index.html /app/vnc_min.html $NO_VNC_HOME
 
 VOLUME /tmp/.X11-unix
+
+VOLUME /tmp/supervisord.pid
 
 EXPOSE 6900
 
