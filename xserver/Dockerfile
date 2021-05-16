@@ -37,6 +37,7 @@ RUN apt-get update && \
     xkb-data \
     dbus-x11 \
     python \
+    python-numpy \
 #   python3-pip \
     supervisor \
     tigervnc-standalone-server \
