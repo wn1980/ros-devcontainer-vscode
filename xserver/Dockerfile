@@ -7,9 +7,11 @@
 #    npm install && \
 #    ./utils/use_require.js --as commonjs --with-app --clean
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 MAINTAINER Yosuke Matsusaka <yosuke.matsusaka@gmail.com>
+
+SHELL ["/bin/bash", "-c"]
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -34,10 +36,11 @@ RUN apt-get update && \
     x11-xkb-utils \
     xkb-data \
     dbus-x11 \
- #   python3 \
- #   python3-pip \
+    python \
+#   python3-pip \
     supervisor \
-    tigervnc-standalone-server && \
+    tigervnc-standalone-server \
+    tigervnc-xorg-extension && \
 #    pip3 install -U setuptools wheel && \
 #    pip3 install -U websockify && \
 #    apt-get remove -y python3-pip && \
