@@ -32,7 +32,7 @@ services:
   workspace:
     # env_file:
     #   - .env
-    build: .
+    build: ./workspace
     image: wn1980/ros-ops
     container_name: ros_workspace
     #    hostname: ros-ops
