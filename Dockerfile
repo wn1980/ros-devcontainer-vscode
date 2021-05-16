@@ -136,7 +136,9 @@ RUN sudo chown -R developer:developer /home/developer
 
 # install theia web IDE
 #COPY .devcontainer/theia-latest.package.json /home/developer/package.json
-COPY .devcontainer/latest.package.json /home/developer/package.json
+#COPY .devcontainer/latest.package.json /home/developer/package.json
+COPY .devcontainer/next.package.json /home/developer/package.json
+
 RUN yarn --cache-folder ./ycache && rm -rf ./ycache && \
     NODE_OPTIONS="--max_old_space_size=4096" yarn theia build && \
     yarn theia download:plugins
@@ -152,7 +154,7 @@ RUN jupyter nbextension enable hinterland/hinterland && \
 # enter ROS world
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 
-COPY .devcontainer/bot.conf /etc/supervisor/conf.d/bot.conf
+#COPY .devcontainer/bot.conf /etc/supervisor/conf.d/bot.conf
 
 EXPOSE 3000 8888
 

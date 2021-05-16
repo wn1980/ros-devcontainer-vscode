@@ -11,8 +11,6 @@ FROM ubuntu:18.04
 
 MAINTAINER Yosuke Matsusaka <yosuke.matsusaka@gmail.com>
 
-ENV DISPLAY ":0"
-
 ENV DEBIAN_FRONTEND noninteractive
 
 #install noVNC
@@ -58,6 +56,8 @@ VOLUME /tmp/.X11-unix
 
 VOLUME /tmp/supervisord.pid
 
-EXPOSE 6900
+ENV DISPLAY ":1"
+
+EXPOSE 6901
 
 CMD ["supervisord", "-c", "/app/supervisord.conf"]
