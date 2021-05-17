@@ -16,7 +16,7 @@ ln -sfn /workspace /home/developer/workspace
 
 source /opt/ros/$ROS_DISTRO/setup.bash
 
-mkdir -p /workspace/src && cd /workspace/src && catkin_init_workspace || true
+mkdir -p /workspace/catkin_ws/src && cd /workspace/catkin_ws/src && catkin_init_workspace || true
 
 cd /home/developer
 

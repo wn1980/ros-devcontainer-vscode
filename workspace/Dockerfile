@@ -1,5 +1,6 @@
 #ARG BASE_IMAGE=ros:melodic
-ARG BASE_IMAGE=wn1980/w-ros-kinetic
+#ARG BASE_IMAGE=wn1980/w-ros-kinetic
+ARG BASE_IMAGE=ros:kinetic-ros-core
 
 FROM maven AS xsdcache
 

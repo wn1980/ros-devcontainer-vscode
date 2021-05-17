@@ -3,20 +3,35 @@ version: '2.4'
 services:
 
   xserver:
-    build: ./xserver
+    #build: ./xserver
     image: wn1980/xserver
     container_name: ros_xserver
     init: true
     restart: unless-stopped
-    ipc: host
+    #ipc: host
     security_opt:
-    - seccomp:unconfined
+      - seccomp:unconfined
+    volumes:
+        - "/etc/localtime:/etc/localtime:ro"
     ports:
-    - "3000:6901"
+      - "3000:6901"
     healthcheck:
       test: ["CMD-SHELL", "test -e /tmp/.X11-unix/X1"]
       interval: "1m"
       retries: 20
+
+  ros-master:
+      #build: ./master
+      image: wn1980/ros-master
+      container_name: ros_master
+      init: true
+      restart: unless-stopped
+      #command: stdbuf -o L roslaunch start.launch
+      volumes:
+        - "/etc/localtime:/etc/localtime:ro"
+      ports:
+        - "9090:9090"
+        - "11311:11311"
 
   simulator:
     #    build: ./turtlebot2
@@ -25,15 +40,17 @@ services:
     container_name: ros_simulator
     init: true
     restart: "no"
-    ipc: host
+    #ipc: host
     security_opt:
-    - seccomp:unconfined
+      - seccomp:unconfined
     environment:
-    - DISPLAY=:1
+      - DISPLAY=:1
+      - ROS_MASTER_URI=http://ros-master:11311
     volumes_from:
-    - xserver
+      - xserver
     depends_on:
-    - xserver
+      - xserver
+      - ros-master
 
   workspace:
     # env_file:
@@ -41,26 +58,27 @@ services:
     build: ./workspace
     image: wn1980/ros-ops
     container_name: ros_workspace
-    #    hostname: ros-ops
+    hostname: ros-ops
     init: true
     restart: unless-stopped
-    ipc: host
+    #ipc: host
     security_opt:
-    - seccomp:unconfined
+      - seccomp:unconfined
     ports:
-    - "3001:3000"
-    - "3002:8888"
+      - "3001:3000"
+      - "3002:8888"
     volumes:
-    - workspace:/workspace
-    - ~/.gitconfig:/home/developer/.gitconfig
+      - workspace:/workspace
+      - ~/.gitconfig:/home/developer/.gitconfig
     environment:
-    - DISPLAY=:1
-    #    - ROS_MASTER_URI=http://simulator:11311/
+      - DISPLAY=:1
+      - ROS_MASTER_URI=http://ros-master:11311
     volumes_from:
-    - xserver
+      - xserver
     #    - simulator
     depends_on:
-    - xserver
+      - xserver
+      - ros-master
 
   web:
     build: ./web
@@ -69,9 +87,9 @@ services:
     init: true
     restart: unless-stopped
     depends_on:
-    - workspace
+      - workspace
     ports:
-    - "8080:80"
-    
+      - "8080:80"
+
 volumes:
   workspace:
