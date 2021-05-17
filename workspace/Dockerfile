@@ -28,7 +28,7 @@ RUN mkdir -p /opt/xsd/urdf && \
 
 FROM $BASE_IMAGE
 
-MAINTAINER Yosuke Matsusaka <yosuke.matsusaka@gmail.com>
+LABEL maintainer="Yosuke Matsusaka <yosuke.matsusaka@gmail.com>"
 
 SHELL ["/bin/bash", "-c"]
 

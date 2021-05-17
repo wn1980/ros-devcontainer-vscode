@@ -1,31 +1,36 @@
 #FROM node:12 AS novnc
 
 # noVNC with chrome77 workaround patch
-#RUN git clone https://github.com/novnc/noVNC.git /novnc
+#RUN git clone https://github.com/phcapde/noVNC.git /novnc
 
 #RUN cd /novnc && \
-#    npm install && \
+#    npm install && npm audit fix && \
 #    ./utils/use_require.js --as commonjs --with-app --clean
 
 FROM ubuntu:20.04
 
-MAINTAINER Yosuke Matsusaka <yosuke.matsusaka@gmail.com>
+LABEL maintainer="Yosuke Matsusaka <yosuke.matsusaka@gmail.com>"
 
 SHELL ["/bin/bash", "-c"]
 
 ENV DEBIAN_FRONTEND noninteractive
 
+#ENV NO_VNC_HOME=/novnc
+ENV NO_VNC_HOME=/usr/share/novnc/ 
+
+#COPY --from=novnc /novnc/build /novnc
+
+COPY . /app
+
 #install noVNC
-COPY ./*.tar.gz /
 
-ENV NO_VNC_HOME=/novnc
+#WORKDIR /app
 
-RUN mkdir -p $NO_VNC_HOME/utils/websockify && \
-	tar xzfv noVNC-1.2.0.tar.gz --strip 1 -C $NO_VNC_HOME && \
-	tar xzfv websockify-0.9.0.tar.gz --strip 1 -C $NO_VNC_HOME/utils/websockify && \
-	chmod +x -v $NO_VNC_HOME/utils/*.sh && \
-	rm -f noVNC-1.2.0.tar.gz websockify-0.9.0.tar.gz
-
+#RUN mkdir -p $NO_VNC_HOME/utils/websockify && \
+#	tar xzfv noVNC-1.2.0.tar.gz --strip 1 -C $NO_VNC_HOME && \
+#	tar xzfv websockify-0.9.0.tar.gz --strip 1 -C $NO_VNC_HOME/utils/websockify && \
+#	chmod +x -v $NO_VNC_HOME/utils/*.sh && \
+#	rm -f noVNC-1.2.0.tar.gz websockify-0.9.0.tar.gz
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     curl \
@@ -39,6 +44,8 @@ RUN apt-get update && \
     python \
     python-numpy \
 #   python3-pip \
+    net-tools \
+    novnc \
     supervisor \
     tigervnc-standalone-server \
     tigervnc-xorg-extension && \
@@ -49,12 +56,10 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-#COPY --from=novnc /novnc/build /novnc
 
-COPY . /app
 
 #RUN cp /app/index.html /app/vnc_min.html /novnc/
-RUN cp /app/index.html /app/vnc_min.html $NO_VNC_HOME
+RUN mv /app/index.html /app/vnc_min.html $NO_VNC_HOME
 
 VOLUME /tmp/.X11-unix
 

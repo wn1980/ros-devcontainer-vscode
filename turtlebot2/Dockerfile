@@ -1,6 +1,6 @@
 FROM wn1980/w-ros-kinetic
 
-MAINTAINER Yosuke Matsusaka <yosuke.matsusaka@gmail.com>
+LABEL maintainer="Yosuke Matsusaka <yosuke.matsusaka@gmail.com>"
 
 SHELL ["/bin/bash", "-c"]
 

@@ -1,6 +1,6 @@
 FROM ros:kinetic-ros-core
 
-MAINTAINER Yosuke Matsusaka <yosuke.matsusaka@gmail.com>
+LABEL maintainer="Yosuke Matsusaka <yosuke.matsusaka@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
