@@ -57,8 +57,30 @@ RUN sh -c 'echo "deb https://deb.nodesource.com/node_12.x `lsb_release -cs` main
     curl -sSL https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 
 # install depending packages (install moveit! algorithms on the workspace side, since moveit-commander loads it from the workspace)
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y bash-completion less wget vim-tiny iputils-ping net-tools openssh-client git openjdk-8-jdk-headless nodejs sudo imagemagick byzanz python-dev ros-$ROS_DISTRO-desktop ros-$ROS_DISTRO-moveit ros-$ROS_DISTRO-moveit-commander ros-$ROS_DISTRO-moveit-ros-visualization ros-$ROS_DISTRO-trac-ik ros-$ROS_DISTRO-move-base-msgs ros-$ROS_DISTRO-ros-numpy && \
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+    bash-completion \
+    less \
+    wget \
+    vim-tiny \
+    iputils-ping \
+    net-tools \
+    openssh-client \
+    git \
+    openjdk-8-jdk-headless \
+    nodejs \
+    sudo \
+    imagemagick \
+    byzanz \
+    python-dev \
+    ros-$ROS_DISTRO-desktop \
+    ros-$ROS_DISTRO-moveit \
+    ros-$ROS_DISTRO-moveit-commander \
+    ros-$ROS_DISTRO-moveit-ros-visualization \
+    ros-$ROS_DISTRO-trac-ik \
+    ros-$ROS_DISTRO-move-base-msgs \
+    ros-$ROS_DISTRO-ros-numpy && \
     npm install -g yarn && \
     echo developer ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/developer && \
     chmod 0440 /etc/sudoers.d/developer && \
@@ -136,7 +158,6 @@ ADD .devcontainer/templates /home/developer/templates
 RUN sudo chown -R developer:developer /home/developer
 
 # install theia web IDE
-#COPY .devcontainer/theia-latest.package.json /home/developer/package.json
 COPY .devcontainer/latest.package.json /home/developer/package.json
 #COPY .devcontainer/next.package.json /home/developer/package.json
 
