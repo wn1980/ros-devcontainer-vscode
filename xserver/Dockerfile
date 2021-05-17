@@ -15,22 +15,6 @@ SHELL ["/bin/bash", "-c"]
 
 ENV DEBIAN_FRONTEND noninteractive
 
-#ENV NO_VNC_HOME=/novnc
-ENV NO_VNC_HOME=/usr/share/novnc/ 
-
-#COPY --from=novnc /novnc/build /novnc
-
-COPY . /app
-
-#install noVNC
-
-#WORKDIR /app
-
-#RUN mkdir -p $NO_VNC_HOME/utils/websockify && \
-#	tar xzfv noVNC-1.2.0.tar.gz --strip 1 -C $NO_VNC_HOME && \
-#	tar xzfv websockify-0.9.0.tar.gz --strip 1 -C $NO_VNC_HOME/utils/websockify && \
-#	chmod +x -v $NO_VNC_HOME/utils/*.sh && \
-#	rm -f noVNC-1.2.0.tar.gz websockify-0.9.0.tar.gz
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
     curl \
@@ -41,9 +25,9 @@ RUN apt-get update && \
     x11-xkb-utils \
     xkb-data \
     dbus-x11 \
-    python \
-    python-numpy \
-#   python3-pip \
+#    python \
+#    python-numpy \
+#    python3-pip \
     net-tools \
     novnc \
     supervisor \
@@ -56,7 +40,21 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+ENV NO_VNC_HOME=/usr/share/novnc/ 
 
+#COPY --from=novnc /novnc/build $NO_VNC_HOME
+
+COPY . /app
+
+#install noVNC
+
+#WORKDIR /app
+
+#RUN mkdir -p $NO_VNC_HOME/utils/websockify && \
+#	tar xzfv noVNC-1.2.0.tar.gz --strip 1 -C $NO_VNC_HOME && \
+#	tar xzfv websockify-0.9.0.tar.gz --strip 1 -C $NO_VNC_HOME/utils/websockify && \
+#	chmod +x -v $NO_VNC_HOME/utils/*.sh && \
+#	rm -f noVNC-1.2.0.tar.gz websockify-0.9.0.tar.gz
 
 #RUN cp /app/index.html /app/vnc_min.html /novnc/
 RUN mv /app/index.html /app/vnc_min.html $NO_VNC_HOME
