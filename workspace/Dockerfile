@@ -74,6 +74,7 @@ RUN apt-get update && \
     imagemagick \
     byzanz \
     python-dev \
+    build-essential \
     ros-$ROS_DISTRO-desktop \
     ros-$ROS_DISTRO-moveit \
     ros-$ROS_DISTRO-moveit-commander \
@@ -119,10 +120,14 @@ COPY .devcontainer/sim.py /usr/bin/sim
 
 COPY --from=xsdcache /opt/xsd /opt/xsd
 
+RUN rosdep init
+
 USER developer
+
 WORKDIR /home/developer
 
 ENV HOME /home/developer
+
 ENV SHELL /bin/bash
 
 # jre is required to use XML editor extension
@@ -148,7 +153,7 @@ RUN git clone --depth 1 https://github.com/b4b4r07/enhancd.git ~/.enhancd && \
     echo "source ~/.enhancd/init.sh" >> ~/.bashrc
 
 # init rosdep
-RUN rosdep update
+RUN rosdep fix-permissions && rosdep update
 
 # global vscode config
 ADD .vscode /home/developer/.vscode
