@@ -1,15 +1,6 @@
-#FROM node:12 AS novnc
-
-# noVNC with chrome77 workaround patch
-#RUN git clone https://github.com/phcapde/noVNC.git /novnc
-
-#RUN cd /novnc && \
-#    npm install && npm audit fix && \
-#    ./utils/use_require.js --as commonjs --with-app --clean
-
 FROM ubuntu:20.04
 
-LABEL maintainer="Yosuke Matsusaka <yosuke.matsusaka@gmail.com>"
+LABEL maintainer="Waipot Ngamsaad <waipotn@hotmail.com>"
 
 SHELL ["/bin/bash", "-c"]
 
@@ -42,26 +33,11 @@ RUN apt-get update && \
 
 ENV NO_VNC_HOME=/usr/share/novnc/ 
 
-#COPY --from=novnc /novnc/build $NO_VNC_HOME
+COPY ./app /app
 
-COPY . /app
-
-#install noVNC
-
-#WORKDIR /app
-
-#RUN mkdir -p $NO_VNC_HOME/utils/websockify && \
-#	tar xzfv noVNC-1.2.0.tar.gz --strip 1 -C $NO_VNC_HOME && \
-#	tar xzfv websockify-0.9.0.tar.gz --strip 1 -C $NO_VNC_HOME/utils/websockify && \
-#	chmod +x -v $NO_VNC_HOME/utils/*.sh && \
-#	rm -f noVNC-1.2.0.tar.gz websockify-0.9.0.tar.gz
-
-#RUN cp /app/index.html /app/vnc_min.html /novnc/
-RUN mv /app/index.html /app/vnc_min.html $NO_VNC_HOME
+COPY ./index.html $NO_VNC_HOME
 
 VOLUME /tmp/.X11-unix
-
-VOLUME /tmp/supervisord.pid
 
 ENV DISPLAY ":1"
 

@@ -1,6 +1,7 @@
 version: '2.4'
 
 services:
+
   xserver:
     build: ./xserver
     image: wn1980/xserver
@@ -16,6 +17,7 @@ services:
       test: ["CMD-SHELL", "test -e /tmp/.X11-unix/X1"]
       interval: "1m"
       retries: 20
+
   simulator:
     #    build: ./turtlebot2
     #    image: wn1980/simulator
@@ -32,6 +34,7 @@ services:
     - xserver
     depends_on:
     - xserver
+
   workspace:
     # env_file:
     #   - .env
@@ -58,8 +61,9 @@ services:
     #    - simulator
     depends_on:
     - xserver
+
   web:
-    build: ./html
+    build: ./web
     image: wn1980/webserver
     container_name: ros_webserver
     init: true
@@ -68,5 +72,6 @@ services:
     - workspace
     ports:
     - "8080:80"
+    
 volumes:
   workspace:
