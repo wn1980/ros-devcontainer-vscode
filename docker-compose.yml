@@ -45,6 +45,7 @@ services:
     environment:
       - DISPLAY=:1
       - ROS_MASTER_URI=http://master:11311
+      - QT_X11_NO_MITSHM=1
     volumes_from:
       - xserver
     depends_on:
@@ -72,6 +73,7 @@ services:
     environment:
       - DISPLAY=:1
       - ROS_MASTER_URI=http://master:11311
+      - QT_X11_NO_MITSHM=1
     volumes_from:
       - xserver
     #    - simulator
