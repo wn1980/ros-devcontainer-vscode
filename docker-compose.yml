@@ -3,7 +3,7 @@ version: '2.4'
 services:
 
   xserver:
-    #build: ./xserver
+    build: ./xserver
     image: wn1980/xserver
     container_name: ros_xserver
     init: true
@@ -29,6 +29,7 @@ services:
       volumes:
         - "/etc/localtime:/etc/localtime:ro"
       ports:
+        - "8080:8080"
         - "9090:9090"
         - "11311:11311"
 
@@ -55,7 +56,7 @@ services:
   workspace:
     # env_file:
     #   - .env
-    build: ./workspace
+    #build: ./workspace
     image: wn1980/workspace
     container_name: ros_workspace
     hostname: ros-ops
@@ -90,7 +91,18 @@ services:
     depends_on:
       - workspace
     ports:
-      - "8080:80"
+      - "8181:80"
+
+  webviz:
+    build: ./webviz
+    image: wn1980/webviz
+    container_name: ros_webviz
+    init: true
+    restart: unless-stopped
+    depends_on:
+      - master
+    ports:
+      - "8282:8080"
 
 volumes:
   workspace:

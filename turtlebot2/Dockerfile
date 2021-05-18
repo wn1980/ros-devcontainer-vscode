@@ -19,6 +19,8 @@ RUN apt-get update && \
 #RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
 #    curl -L http://packages.osrfoundation.org/gazebo.key | apt-key add -
 
+RUN rosdep init && rosdep update
+
 ADD ros_entrypoint.sh /
 
 ADD supervisord.conf /etc/supervisor/supervisord.conf
