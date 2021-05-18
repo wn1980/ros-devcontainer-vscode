@@ -15,9 +15,10 @@ COPY ./root/ /root/
 
 RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
 	cd ~/catkin_ws && \
-	catkin_make -DCMAKE_BUILD_TYPE=Release
+	catkin_make install -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros/$ROS_DISTRO -DCATKIN_ENABLE_TESTING=0 && \
+	cd /root && rm -rf catkin_ws
 
-COPY ./ros_entrypoint.sh ./start.launch /
+COPY ./start.launch /
 
 EXPOSE 9090 11311
 

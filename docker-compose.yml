@@ -21,7 +21,7 @@ services:
       retries: 20
 
   master:
-      #build: ./master
+      build: ./master
       image: wn1980/master
       container_name: ros_master
       init: true
