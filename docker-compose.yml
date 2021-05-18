@@ -33,9 +33,9 @@ services:
         - "11311:11311"
 
   simulator:
-    #    build: ./turtlebot2
-    #    image: wn1980/simulator
-    image: devrt/simulator-turtlebot3
+    build: ./turtlebot2
+    image: wn1980/simulator
+    #image: devrt/simulator-turtlebot3
     container_name: ros_simulator
     init: true
     restart: "no"

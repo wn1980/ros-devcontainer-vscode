@@ -38,7 +38,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN useradd -m developer
 
 # need to renew the key for some reason
-RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+#RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
 # workaround to enable bash completion for apt-get
 # see: https://github.com/tianon/docker-brew-ubuntu-core/issues/75
@@ -49,8 +49,8 @@ RUN apt-get update && \
     apt-get clean
 
 # OSRF distribution is better for gazebo
-RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
-    curl -L http://packages.osrfoundation.org/gazebo.key | apt-key add -
+#RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
+#    curl -L http://packages.osrfoundation.org/gazebo.key | apt-key add -
 
 # nice to have nodejs for web goodies
 RUN sh -c 'echo "deb https://deb.nodesource.com/node_12.x `lsb_release -cs` main" > /etc/apt/sources.list.d/nodesource.list' && \
@@ -75,12 +75,13 @@ RUN apt-get update && \
     byzanz \
     python-dev \
     build-essential \
-    ros-$ROS_DISTRO-desktop \
-    ros-$ROS_DISTRO-moveit \
-    ros-$ROS_DISTRO-moveit-commander \
-    ros-$ROS_DISTRO-moveit-ros-visualization \
-    ros-$ROS_DISTRO-trac-ik \
-    ros-$ROS_DISTRO-move-base-msgs \
+    #ros-$ROS_DISTRO-desktop \
+    ros-$ROS_DISTRO-turtlebot-gazebo \
+    #ros-$ROS_DISTRO-moveit \
+    #ros-$ROS_DISTRO-moveit-commander \
+    #ros-$ROS_DISTRO-moveit-ros-visualization \
+    #ros-$ROS_DISTRO-trac-ik \
+    #ros-$ROS_DISTRO-move-base-msgs \
     ros-$ROS_DISTRO-ros-numpy && \
     npm install -g yarn && \
     echo developer ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/developer && \
