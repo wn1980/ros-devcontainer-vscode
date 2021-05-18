@@ -100,8 +100,9 @@ RUN apt-get update && \
 # basic python packages
 RUN if [ $(lsb_release -cs) = "focal" ]; then apt-get install -y python-is-python3; fi && \
     curl -kL https://bootstrap.pypa.io/pip/2.7/get-pip.py | python && \
-    pip install --upgrade --ignore-installed --no-cache-dir pyassimp pylint==1.9.4 autopep8 python-language-server[all] \
-		notebook~=5.7 Pygments matplotlib ipywidgets jupyter_contrib_nbextensions nbimporter supervisor supervisor_twiddler argcomplete
+    pip install --upgrade --ignore-installed --no-cache-dir pyassimp pylint==1.9.4 autopep8 \
+    python-language-server[all] notebook~=5.7 Pygments matplotlib ipywidgets \
+    jupyter_contrib_nbextensions nbimporter supervisor supervisor_twiddler argcomplete
 
 RUN jupyter nbextension enable --py widgetsnbextension && \
     jupyter contrib nbextension install --system
