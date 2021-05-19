@@ -124,6 +124,16 @@ COPY --from=xsdcache /opt/xsd /opt/xsd
 
 RUN rosdep init
 
+# install vscode
+RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg && \
+    install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/ && \
+    sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' && \
+    rm -f packages.microsoft.gpg
+
+RUN apt-get install -y apt-transport-https &&
+    apt-get update && \
+    apt-get install -y code # or code-insiders
+    
 USER developer
 
 WORKDIR /home/developer
@@ -184,16 +194,6 @@ RUN jupyter nbextension enable hinterland/hinterland && \
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 
 #COPY .devcontainer/bot.conf /etc/supervisor/conf.d/bot.conf
-
-# install vscode
-RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg && \
-    install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/ && \
-    sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' && \
-    rm -f packages.microsoft.gpg
-
-RUN apt-get install -y apt-transport-https &&
-    apt-get update && \
-    apt-get install -y code # or code-insiders
 
 EXPOSE 3000 8888
 
