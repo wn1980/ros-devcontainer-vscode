@@ -76,13 +76,13 @@ RUN apt-get update && \
     python-dev \
     build-essential \
     #ros-$ROS_DISTRO-desktop \
-    ros-$ROS_DISTRO-turtlebot-gazebo \
-    ros-$ROS_DISTRO-turtlebot-teleop \
     #ros-$ROS_DISTRO-moveit \
     #ros-$ROS_DISTRO-moveit-commander \
     #ros-$ROS_DISTRO-moveit-ros-visualization \
     #ros-$ROS_DISTRO-trac-ik \
     #ros-$ROS_DISTRO-move-base-msgs \
+    ros-$ROS_DISTRO-turtlebot-gazebo \
+    ros-$ROS_DISTRO-turtlebot-apps \
     ros-$ROS_DISTRO-ros-numpy && \
     npm install -g yarn && \
     echo developer ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/developer && \

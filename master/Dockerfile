@@ -6,7 +6,9 @@ SHELL ["/bin/bash", "-c"]
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y \ 
+RUN apt-get update && \
+	apt-get upgrade -y && \
+	apt-get install -y \ 
 	ros-$ROS_DISTRO-rosbridge-server \
 	ros-$ROS_DISTRO-tf2-web-republisher \
 	ros-$ROS_DISTRO-web-video-server \
