@@ -191,9 +191,9 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
     sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' && \
     rm -f packages.microsoft.gpg
 
-RUN apt install -y apt-transport-https &&
-    apt update && \
-    apt install -y code # or code-insiders
+RUN apt-get install -y apt-transport-https &&
+    apt-get update && \
+    apt-get install -y code # or code-insiders
 
 EXPOSE 3000 8888
 
