@@ -116,6 +116,7 @@ RUN mkdir -p /etc/supervisor/conf.d
 COPY .devcontainer/supervisord.conf /etc/supervisor/supervisord.conf
 COPY .devcontainer/theia.conf /etc/supervisor/conf.d/theia.conf
 COPY .devcontainer/jupyter.conf /etc/supervisor/conf.d/jupyter.conf
+COPY .devcontainer/vscode.conf /etc/supervisor/conf.d/vscode.conf
 
 COPY .devcontainer/entrypoint.sh /entrypoint.sh
 
