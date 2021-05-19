@@ -49,8 +49,8 @@ RUN apt-get update && \
     apt-get clean
 
 # OSRF distribution is better for gazebo
-#RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
-#    curl -L http://packages.osrfoundation.org/gazebo.key | apt-key add -
+RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
+    curl -L http://packages.osrfoundation.org/gazebo.key | apt-key add -
 
 # nice to have nodejs for web goodies
 RUN sh -c 'echo "deb https://deb.nodesource.com/node_12.x `lsb_release -cs` main" > /etc/apt/sources.list.d/nodesource.list' && \
@@ -77,6 +77,7 @@ RUN apt-get update && \
     build-essential \
     #ros-$ROS_DISTRO-desktop \
     ros-$ROS_DISTRO-turtlebot-gazebo \
+    ros-$ROS_DISTRO-turtlebot-teleop \
     #ros-$ROS_DISTRO-moveit \
     #ros-$ROS_DISTRO-moveit-commander \
     #ros-$ROS_DISTRO-moveit-ros-visualization \

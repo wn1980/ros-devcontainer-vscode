@@ -6,6 +6,12 @@ SHELL ["/bin/bash", "-c"]
 
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN rosdep init && rosdep update
+
+# OSRF distribution is better for gazebo
+RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
+    curl -L http://packages.osrfoundation.org/gazebo.key | apt-key add -
+
 RUN apt-get update && \
     apt-get install -y \
     curl \
@@ -14,12 +20,6 @@ RUN apt-get update && \
     python-pip && \
     pip install -U --no-cache-dir supervisor supervisor_twiddler && \
     apt-get clean
-
-# OSRF distribution is better for gazebo
-#RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list' && \
-#    curl -L http://packages.osrfoundation.org/gazebo.key | apt-key add -
-
-RUN rosdep init && rosdep update
 
 ADD ros_entrypoint.sh /
 

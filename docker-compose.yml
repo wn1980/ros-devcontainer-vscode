@@ -56,7 +56,7 @@ services:
   workspace:
     # env_file:
     #   - .env
-    #build: ./workspace
+    build: ./workspace
     image: wn1980/workspace
     container_name: ros_workspace
     hostname: ros-ops
