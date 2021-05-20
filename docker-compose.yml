@@ -54,7 +54,7 @@ services:
     build: ./workspace
     image: wn1980/workspace${TAG}
     container_name: ros_workspace
-    hostname: ros-ops
+    #hostname: ros-ops
     init: true
     restart: unless-stopped
     #ipc: host
