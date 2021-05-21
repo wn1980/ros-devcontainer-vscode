@@ -21,6 +21,8 @@ RUN apt-get update && \
     apt-get install -y \
     curl \
     git \
+    ros-$ROS_DISTRO-gazebo-ros \
+    ros-$ROS_DISTRO-kobuki-gazebo-plugins \
     ros-$ROS_DISTRO-turtlebot-gazebo \
     python-pip && \
     pip install -U --no-cache-dir supervisor supervisor_twiddler && \

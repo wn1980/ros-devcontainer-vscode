@@ -1,7 +1,7 @@
 version: '2.4'
 services:
   xserver:
-    #build: ./xserver
+    build: ./xserver
     image: wn1980/xserver${TAG}
     container_name: ros_xserver
     init: true
