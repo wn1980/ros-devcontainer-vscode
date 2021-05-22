@@ -17,10 +17,10 @@ services:
       test: ["CMD-SHELL", "test -e /tmp/.X11-unix/X1"]
       interval: "1m"
       retries: 20
-  master:
-    build: ./master
-    image: wn1980/master${TAG}
-    container_name: ros_master
+  rosbridge:
+    build: ./rosbridge
+    image: wn1980/rosbridge${TAG}
+    container_name: ros_bridge
     init: true
     restart: unless-stopped
     volumes:
@@ -41,13 +41,13 @@ services:
     - seccomp:unconfined
     environment:
     - DISPLAY=:1
-    - ROS_MASTER_URI=http://master:11311
+    - ROS_MASTER_URI=http://rosbridge:11311
     - QT_X11_NO_MITSHM=1
     volumes_from:
     - xserver
     depends_on:
     - xserver
-    - master
+    - rosbridge
   workspace:
     # env_file:
     #   - .env
@@ -69,13 +69,13 @@ services:
     - ~/.gitconfig:/home/developer/.gitconfig
     environment:
     - DISPLAY=:1
-    - ROS_MASTER_URI=http://master:11311
+    - ROS_MASTER_URI=http://rosbridge:11311
     - QT_X11_NO_MITSHM=1
     volumes_from:
     - xserver
     depends_on:
     - xserver
-    - master
+    - rosbridge
   web:
     build: ./web
     image: wn1980/webserver${TAG}
@@ -93,7 +93,7 @@ services:
     init: true
     restart: unless-stopped
     depends_on:
-    - master
+    - rosbridge
     ports:
     - "8282:8080"
 
