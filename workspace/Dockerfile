@@ -211,7 +211,8 @@ RUN apt-get update && \
 
 # REF: https://github.com/orboan-docker/docker-centos-supervisor-ssh/blob/master/Dockerfile
 RUN \
-  sed -i -r 's/.?Port\s22/Port 2222/' /etc/ssh/sshd_config
+  sed -i -r 's/.?Port\s22/Port 2222/' /etc/ssh/sshd_config && \
+  sed -i -r 's/.?PermitEmptyPasswords.+/PermitEmptyPasswords yes/' /etc/ssh/sshd_config
 #  sed -i -r 's/.?PasswordAuthentication.+/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
 #  sed -i -r 's/.?ChallengeResponseAuthentication.+/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config && \
 #  sed -i -r 's/.?PermitRootLogin.+/PermitRootLogin no/' /etc/ssh/sshd_config
@@ -223,6 +224,10 @@ RUN echo -e "ubuntu\nubuntu" | passwd developer
 COPY .devcontainer/sshd.conf /etc/supervisor/conf.d/sshd.conf
 
 USER developer
+
+SHELL ["/bin/bash", "-c"]
+
+ENV SHELL 	${SHELL:-/bin/bash}
 
 EXPOSE 3000 8888 8118 2222
 
