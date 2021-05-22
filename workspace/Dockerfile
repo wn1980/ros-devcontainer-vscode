@@ -194,6 +194,7 @@ RUN jupyter nbextension enable hinterland/hinterland && \
 
 # enter ROS world
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
+RUN echo 'source /home/developer/workspace/catkin_ws/devel/setup.bash' >> ~/.bashrc
 
 #COPY .devcontainer/bot.conf /etc/supervisor/conf.d/bot.conf
 #COPY .devcontainer/vscode.conf /etc/supervisor/conf.d/vscode.conf
