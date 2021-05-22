@@ -98,5 +98,17 @@ services:
     - master
     ports:
     - "8282:8080"
+
+  webssh:
+    build: ./webssh
+    image: wn1980/webssh${TAG}
+    container_name: ros_webssh
+    init: true
+    restart: unless-stopped
+    depends_on:
+      - workspace
+    ports:
+      - "8998:8998"
+
 volumes:
   workspace:

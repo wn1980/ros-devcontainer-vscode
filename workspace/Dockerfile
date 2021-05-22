@@ -74,6 +74,8 @@ RUN apt-get update && \
     imagemagick \
     byzanz \
     python-dev \
+    tmux \
+    nano \
     build-essential \
     #ros-$ROS_DISTRO-desktop \
     #ros-$ROS_DISTRO-moveit \
@@ -135,7 +137,28 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
 RUN apt-get install -y apt-transport-https && \
     apt-get update && \
     apt-get install -y code # or code-insiders
-    
+
+# install SSH server and webssh
+RUN apt-get update && \
+    apt-get install -y \
+    openssh-server && \
+    pip install webssh
+
+# REF: https://github.com/orboan-docker/docker-centos-supervisor-ssh/blob/master/Dockerfile
+RUN \
+  sed -i -r 's/.?Port\s22/Port 2222/' /etc/ssh/sshd_config
+  #sed -i -r 's/.?PermitEmptyPasswords.+/PermitEmptyPasswords yes/' /etc/ssh/sshd_config
+  #sed -i -r 's/.?PasswordAuthentication.+/PasswordAuthentication no/' /etc/ssh/sshd_config && \
+  #sed -i -r 's/.?ChallengeResponseAuthentication.+/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config && \
+  #sed -i -r 's/.?PermitRootLogin.+/PermitRootLogin no/' /etc/ssh/sshd_config
+
+RUN service ssh start 
+
+RUN echo -e "ubuntu\nubuntu" | passwd developer && \
+    usermod --shell /bin/bash developer
+
+COPY .devcontainer/sshd.conf /etc/supervisor/conf.d/sshd.conf
+
 USER developer
 
 WORKDIR /home/developer
@@ -199,37 +222,8 @@ RUN echo 'source /home/developer/workspace/catkin_ws/devel/setup.bash' >> ~/.bas
 #COPY .devcontainer/bot.conf /etc/supervisor/conf.d/bot.conf
 #COPY .devcontainer/vscode.conf /etc/supervisor/conf.d/vscode.conf
 
-USER root
-
-# install SSH server
-RUN apt-get update && \
-    apt-get install -y \
-    tmux \
-    nano \
-    openssh-server && \
-    pip install webssh
-
-# REF: https://github.com/orboan-docker/docker-centos-supervisor-ssh/blob/master/Dockerfile
-RUN \
-  sed -i -r 's/.?Port\s22/Port 2222/' /etc/ssh/sshd_config && \
-  sed -i -r 's/.?PermitEmptyPasswords.+/PermitEmptyPasswords yes/' /etc/ssh/sshd_config
-#  sed -i -r 's/.?PasswordAuthentication.+/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
-#  sed -i -r 's/.?ChallengeResponseAuthentication.+/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config && \
-#  sed -i -r 's/.?PermitRootLogin.+/PermitRootLogin no/' /etc/ssh/sshd_config
-
-RUN service ssh start 
-
-RUN echo -e "ubuntu\nubuntu" | passwd developer
-
-COPY .devcontainer/sshd.conf /etc/supervisor/conf.d/sshd.conf
-
-USER developer
-
-SHELL ["/bin/bash", "-c"]
-
-ENV SHELL 	${SHELL:-/bin/bash}
-
 EXPOSE 3000 8888 8118 2222
 
 ENTRYPOINT [ "/entrypoint.sh" ]
+
 CMD [ "sudo", "-E", "/usr/local/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
