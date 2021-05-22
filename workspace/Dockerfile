@@ -138,11 +138,10 @@ RUN apt-get install -y apt-transport-https && \
     apt-get update && \
     apt-get install -y code # or code-insiders
 
-# install SSH server and webssh
+# install SSH server
 RUN apt-get update && \
     apt-get install -y \
-    openssh-server && \
-    pip install webssh
+    openssh-server
 
 # REF: https://github.com/orboan-docker/docker-centos-supervisor-ssh/blob/master/Dockerfile
 RUN \
@@ -222,7 +221,7 @@ RUN echo 'source /home/developer/workspace/catkin_ws/devel/setup.bash' >> ~/.bas
 #COPY .devcontainer/bot.conf /etc/supervisor/conf.d/bot.conf
 #COPY .devcontainer/vscode.conf /etc/supervisor/conf.d/vscode.conf
 
-EXPOSE 3000 8888 8118 2222
+EXPOSE 3000 8888 2222
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 

@@ -63,7 +63,6 @@ services:
     ports:
     - "3000:3000"
     - "8888:8888"
-    - "8118:8118"
     - "2222:2222"
     volumes:
     - workspace:/workspace
@@ -74,7 +73,6 @@ services:
     - QT_X11_NO_MITSHM=1
     volumes_from:
     - xserver
-    #    - simulator
     depends_on:
     - xserver
     - master
