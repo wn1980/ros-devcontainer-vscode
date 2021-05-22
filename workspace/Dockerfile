@@ -81,7 +81,8 @@ RUN apt-get update && \
     #ros-$ROS_DISTRO-moveit-ros-visualization \
     #ros-$ROS_DISTRO-trac-ik \
     #ros-$ROS_DISTRO-move-base-msgs \
-    ros-$ROS_DISTRO-turtlebot-gazebo \
+    #ros-$ROS_DISTRO-turtlebot-gazebo \
+    ros-$ROS_DISTRO-turtlebot-rviz-launchers \
     ros-$ROS_DISTRO-turtlebot-apps \
     ros-$ROS_DISTRO-ros-numpy && \
     npm install -g yarn && \
