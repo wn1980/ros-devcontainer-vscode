@@ -209,23 +209,18 @@ RUN apt-get update && \
     openssh-server && \
     pip install webssh
 
-
-# - Generate keys for ssh. 
-#RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' && \
-#    ssh-keygen -t dsa  -f /etc/ssh/ssh_host_dsa_key -N '' && \
-#    ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N '' && \
-#    ssh-keygen -t ed25519-f /etc/ssh/ssh_host_ed25519_key -N '' && \
-#    chmod 600 /etc/ssh/*
-
+# REF: https://github.com/orboan-docker/docker-centos-supervisor-ssh/blob/master/Dockerfile
 RUN \
-  sed -i -r 's/.?Port\s22/Port 2222/' /etc/ssh/sshd_config && \
-  sed -i -r 's/.?PasswordAuthentication.+/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
-  sed -i -r 's/.?ChallengeResponseAuthentication.+/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config && \
-  sed -i -r 's/.?PermitRootLogin.+/PermitRootLogin no/' /etc/ssh/sshd_config
-
-COPY .devcontainer/sshd.conf /etc/supervisor/conf.d/sshd.conf
+  sed -i -r 's/.?Port\s22/Port 2222/' /etc/ssh/sshd_config
+#  sed -i -r 's/.?PasswordAuthentication.+/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+#  sed -i -r 's/.?ChallengeResponseAuthentication.+/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config && \
+#  sed -i -r 's/.?PermitRootLogin.+/PermitRootLogin no/' /etc/ssh/sshd_config
 
 RUN service ssh start 
+
+RUN echo -e "ubuntu\nubuntu" | passwd developer
+
+COPY .devcontainer/sshd.conf /etc/supervisor/conf.d/sshd.conf
 
 USER developer
 
