@@ -199,7 +199,37 @@ RUN echo 'source /home/developer/workspace/catkin_ws/devel/setup.bash' >> ~/.bas
 #COPY .devcontainer/bot.conf /etc/supervisor/conf.d/bot.conf
 #COPY .devcontainer/vscode.conf /etc/supervisor/conf.d/vscode.conf
 
-EXPOSE 3000 8888
+USER root
+
+# install SSH server
+RUN apt-get update && \
+    apt-get install -y \
+    tmux \
+    nano \
+    openssh-server && \
+    pip install webssh
+
+
+# - Generate keys for ssh. 
+#RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' && \
+#    ssh-keygen -t dsa  -f /etc/ssh/ssh_host_dsa_key -N '' && \
+#    ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N '' && \
+#    ssh-keygen -t ed25519-f /etc/ssh/ssh_host_ed25519_key -N '' && \
+#    chmod 600 /etc/ssh/*
+
+RUN \
+  sed -i -r 's/.?Port\s22/Port 2222/' /etc/ssh/sshd_config && \
+  sed -i -r 's/.?PasswordAuthentication.+/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+  sed -i -r 's/.?ChallengeResponseAuthentication.+/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config && \
+  sed -i -r 's/.?PermitRootLogin.+/PermitRootLogin no/' /etc/ssh/sshd_config
+
+COPY .devcontainer/sshd.conf /etc/supervisor/conf.d/sshd.conf
+
+RUN service ssh start 
+
+USER developer
+
+EXPOSE 3000 8888 8118 2222
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 CMD [ "sudo", "-E", "/usr/local/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
