@@ -74,8 +74,6 @@ RUN apt-get update && \
     imagemagick \
     byzanz \
     python-dev \
-    tmux \
-    nano \
     build-essential \
     #ros-$ROS_DISTRO-desktop \
     #ros-$ROS_DISTRO-moveit \
@@ -86,7 +84,10 @@ RUN apt-get update && \
     #ros-$ROS_DISTRO-turtlebot-gazebo \
     ros-$ROS_DISTRO-turtlebot-rviz-launchers \
     ros-$ROS_DISTRO-turtlebot-apps \
-    ros-$ROS_DISTRO-ros-numpy && \
+    ros-$ROS_DISTRO-ros-numpy \
+    openssh-server \
+    tmux \
+    nano && \
     npm install -g yarn && \
     echo developer ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/developer && \
     chmod 0440 /etc/sudoers.d/developer && \
@@ -129,20 +130,16 @@ COPY --from=xsdcache /opt/xsd /opt/xsd
 RUN rosdep init
 
 # install vscode
-RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg && \
-    install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/ && \
-    sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' && \
-    rm -f packages.microsoft.gpg
+#RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg && \
+#    install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/ && \
+#    sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' && \
+#    rm -f packages.microsoft.gpg
 
 RUN apt-get install -y apt-transport-https && \
     apt-get update && \
     apt-get install -y code # or code-insiders
 
 # install SSH server
-RUN apt-get update && \
-    apt-get install -y \
-    openssh-server
-
 # REF: https://github.com/orboan-docker/docker-centos-supervisor-ssh/blob/master/Dockerfile
 #RUN \
   #sed -i -r 's/.?Port\s22/Port 2222/' /etc/ssh/sshd_config
@@ -158,6 +155,17 @@ RUN echo -e "ubuntu\nubuntu" | passwd developer && \
     usermod --shell /bin/bash developer
 
 COPY .devcontainer/sshd.conf /etc/supervisor/conf.d/sshd.conf
+
+# install code-server
+#RUN wget https://github.com/cdr/code-server/releases/download/v3.10.2/code-server_3.10.2_$(dpkg --print-architecture).deb && \
+#    dpkg -i code-server_3.10.2_$(dpkg --print-architecture).deb
+
+RUN rm -rf ~/code-server && \
+    git clone https://github.com/cdr/code-server.git ~/code-server && \
+    cd ~/code-server && \
+    yarn global add code-server
+
+COPY .devcontainer/code-server.conf /etc/supervisor/conf.d/code-server.conf
 
 USER developer
 
@@ -237,15 +245,6 @@ RUN echo "source ~/.bashrc" >> ~/.bash_profile
 #    touch ~/.ssh/rc && \
 #    echo -e "#!/bin/bash\n /usr/bin/tmux new-session -s \$USER -d" > ~/.ssh/rc && \
 #    chmod a+x ~/.ssh/rc
-
-# install code-server
-USER root
-RUN wget https://github.com/cdr/code-server/releases/download/v3.10.2/code-server_3.10.2_$(dpkg --print-architecture).deb && \
-    dpkg -i code-server_3.10.2_$(dpkg --print-architecture).deb
-
-COPY .devcontainer/code-server.conf /etc/supervisor/conf.d/code-server.conf
-
-USER developer
 
 EXPOSE 3000 8888 8338 22
 
