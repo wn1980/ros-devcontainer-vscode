@@ -238,7 +238,16 @@ RUN echo "source ~/.bashrc" >> ~/.bash_profile
 #    echo -e "#!/bin/bash\n /usr/bin/tmux new-session -s \$USER -d" > ~/.ssh/rc && \
 #    chmod a+x ~/.ssh/rc
 
-EXPOSE 3000 8888 22
+# install code-server
+USER root
+RUN wget https://github.com/cdr/code-server/releases/download/v3.10.2/code-server_3.10.2_$(dpkg --print-architecture).deb && \
+    dpkg -i code-server_3.10.2_$(dpkg --print-architecture).deb
+
+COPY .devcontainer/code-server.conf /etc/supervisor/conf.d/code-server.conf
+
+USER developer
+
+EXPOSE 3000 8888 8338 22
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 

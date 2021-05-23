@@ -28,7 +28,6 @@ services:
     ports:
     - "8080:8080"
     - "9090:9090"
-    - "11311:11311"
   simulator:
     build: ./turtlebot2
     image: wn1980/simulator${TAG}
@@ -63,6 +62,7 @@ services:
     ports:
     - "3000:3000"
     - "8888:8888"
+    - "8338:8338"
     volumes:
     - workspace:/workspace
     - ~/.gitconfig:/home/developer/.gitconfig
@@ -95,7 +95,6 @@ services:
     - rosbridge
     ports:
     - "8228:8080"
-
   webssh:
     build: ./webssh
     image: wn1980/webssh${TAG}

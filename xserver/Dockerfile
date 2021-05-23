@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu
 
 LABEL maintainer="Waipot Ngamsaad <waipotn@hotmail.com>"
 
@@ -17,17 +17,11 @@ RUN apt-get update && \
     x11-xkb-utils \
     xkb-data \
     dbus-x11 \
-#    python \
-#    python-numpy \
-#    python3-pip \
     net-tools \
     novnc \
     supervisor \
     tigervnc-standalone-server \
     tigervnc-xorg-extension && \
-#    pip3 install -U setuptools wheel && \
-#    pip3 install -U websockify && \
-#    apt-get remove -y python3-pip && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

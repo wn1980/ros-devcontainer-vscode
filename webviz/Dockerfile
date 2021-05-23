@@ -2,6 +2,8 @@
 
 FROM node:10.22 AS builder
 
+LABEL maintainer="Waipot Ngamsaad <waipotn@hotmail.com>"
+
 # clone sourcecode
 RUN git clone https://github.com/cruise-automation/webviz.git /app
 

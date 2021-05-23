@@ -12,7 +12,10 @@ RUN apt-get update && \
 	ros-$ROS_DISTRO-rosbridge-server \
 	ros-$ROS_DISTRO-tf2-web-republisher \
 	ros-$ROS_DISTRO-web-video-server \
-	build-essential
+	build-essential && \
+	apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY ./root/ /root/
 

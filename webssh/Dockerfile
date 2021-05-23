@@ -1,5 +1,7 @@
 FROM ubuntu
 
+LABEL maintainer="Waipot Ngamsaad <waipotn@hotmail.com>"
+
 #SHELL ["/bin/bash", "-c"]
 
 ENV DEBIAN_FRONTEND noninteractive
