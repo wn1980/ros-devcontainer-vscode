@@ -18,4 +18,5 @@ RUN pip3 install webssh && \
 
 EXPOSE 8998
 
-ENTRYPOINT ["wssh", "--port=8998", "--logging=debug", "--encoding='utf-8'"]
+#ENTRYPOINT ["wssh", "--port=8998", , "--encoding='utf-8'", "--logging=debug"]
+ENTRYPOINT ["wssh", "--port=8998", "--encoding='utf-8'"]

@@ -76,16 +76,16 @@ services:
     depends_on:
     - xserver
     - rosbridge
-  web:
-    build: ./web
-    image: wn1980/webserver${TAG}
-    container_name: ros_webserver
+  webui:
+    build: ./webui
+    image: wn1980/webui${TAG}
+    container_name: ros_webui
     init: true
     restart: unless-stopped
     depends_on:
     - workspace
     ports:
-    - "8181:80"
+    - "8118:80"
   webviz:
     build: ./webviz
     image: wn1980/webviz${TAG}
@@ -95,7 +95,7 @@ services:
     depends_on:
     - rosbridge
     ports:
-    - "8282:8080"
+    - "8228:8080"
 
   webssh:
     build: ./webssh
@@ -103,8 +103,6 @@ services:
     container_name: ros_webssh
     init: true
     restart: unless-stopped
-    depends_on:
-      - workspace
     ports:
       - "8998:8998"
 
