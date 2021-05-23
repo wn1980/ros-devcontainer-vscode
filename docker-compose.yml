@@ -63,7 +63,6 @@ services:
     ports:
     - "3000:3000"
     - "8888:8888"
-    - "2222:2222"
     volumes:
     - workspace:/workspace
     - ~/.gitconfig:/home/developer/.gitconfig

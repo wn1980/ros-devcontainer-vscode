@@ -144,13 +144,14 @@ RUN apt-get update && \
     openssh-server
 
 # REF: https://github.com/orboan-docker/docker-centos-supervisor-ssh/blob/master/Dockerfile
-RUN \
-  sed -i -r 's/.?Port\s22/Port 2222/' /etc/ssh/sshd_config
+#RUN \
+  #sed -i -r 's/.?Port\s22/Port 2222/' /etc/ssh/sshd_config
   #sed -i -r 's/.?PermitEmptyPasswords.+/PermitEmptyPasswords yes/' /etc/ssh/sshd_config
   #sed -i -r 's/.?PasswordAuthentication.+/PasswordAuthentication no/' /etc/ssh/sshd_config && \
   #sed -i -r 's/.?ChallengeResponseAuthentication.+/ChallengeResponseAuthentication no/' /etc/ssh/sshd_config && \
   #sed -i -r 's/.?PermitRootLogin.+/PermitRootLogin no/' /etc/ssh/sshd_config
 
+# to generate Hostkeys
 RUN service ssh start 
 
 RUN echo -e "ubuntu\nubuntu" | passwd developer && \
@@ -223,10 +224,10 @@ RUN echo 'source /home/developer/workspace/catkin_ws/devel/setup.bash' >> ~/.bas
 
 # make X forward for ssh
 #REF: https://unix.stackexchange.com/questions/12755/how-to-forward-x-over-ssh-to-run-graphics-applications-remotely
-RUN echo "source ~/.bashrc" >> ~/.bash_profile && \
-    mkdir -p ~/.ssh && \
-    touch ~/.ssh/config && \
-    echo "ForwardX11 yes" > ~/.ssh/config 
+RUN echo "source ~/.bashrc" >> ~/.bash_profile 
+#RUN    mkdir -p ~/.ssh && \
+#    touch ~/.ssh/config && \
+#    echo "ForwardX11 yes" > ~/.ssh/config 
 
 # run default command after ssh login
 #REF: https://askubuntu.com/questions/397674/run-scripts-automatically-in-server-after-ssh-connection
@@ -237,7 +238,7 @@ RUN echo "source ~/.bashrc" >> ~/.bash_profile && \
 #    echo -e "#!/bin/bash\n /usr/bin/tmux new-session -s \$USER -d" > ~/.ssh/rc && \
 #    chmod a+x ~/.ssh/rc
 
-EXPOSE 3000 8888 2222
+EXPOSE 3000 8888 22
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 
