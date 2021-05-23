@@ -135,9 +135,9 @@ RUN rosdep init
 #    sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list' && \
 #    rm -f packages.microsoft.gpg
 
-RUN apt-get install -y apt-transport-https && \
-    apt-get update && \
-    apt-get install -y code # or code-insiders
+#RUN apt-get install -y apt-transport-https && \
+#    apt-get update && \
+#    apt-get install -y code # or code-insiders
 
 # install SSH server
 # REF: https://github.com/orboan-docker/docker-centos-supervisor-ssh/blob/master/Dockerfile
@@ -157,13 +157,13 @@ RUN echo -e "ubuntu\nubuntu" | passwd developer && \
 COPY .devcontainer/sshd.conf /etc/supervisor/conf.d/sshd.conf
 
 # install code-server
-#RUN wget https://github.com/cdr/code-server/releases/download/v3.10.2/code-server_3.10.2_$(dpkg --print-architecture).deb && \
-#    dpkg -i code-server_3.10.2_$(dpkg --print-architecture).deb
+RUN wget https://github.com/cdr/code-server/releases/download/v3.10.2/code-server_3.10.2_$(dpkg --print-architecture).deb && \
+    dpkg -i code-server_3.10.2_$(dpkg --print-architecture).deb
 
-RUN rm -rf ~/code-server && \
-    git clone https://github.com/cdr/code-server.git ~/code-server && \
-    cd ~/code-server && \
-    yarn global add code-server
+#RUN rm -rf ~/code-server && \
+#    git clone https://github.com/cdr/code-server.git ~/code-server && \
+#    cd ~/code-server && \
+#    yarn global add code-server
 
 COPY .devcontainer/code-server.conf /etc/supervisor/conf.d/code-server.conf
 
