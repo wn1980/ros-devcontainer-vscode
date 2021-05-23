@@ -221,6 +221,8 @@ RUN echo 'source /home/developer/workspace/catkin_ws/devel/setup.bash' >> ~/.bas
 #COPY .devcontainer/bot.conf /etc/supervisor/conf.d/bot.conf
 #COPY .devcontainer/vscode.conf /etc/supervisor/conf.d/vscode.conf
 
+RUN echo "source ~/.bashrc" >> ~/.bash_profile 
+
 EXPOSE 3000 8888 2222
 
 ENTRYPOINT [ "/entrypoint.sh" ]
