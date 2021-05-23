@@ -21,6 +21,7 @@ mkdir -p /workspace/catkin_ws/src && cd /workspace/catkin_ws/ && catkin_make || 
 source /home/developer/workspace/catkin_ws/devel/setup.bash
 
 echo "export ROS_MASTER_URI=${ROS_MASTER_URI}" >> ~/.bashrc
+echo "export DISPLAY=${DISPLAY}" >> ~/.bashrc
 
 cd /home/developer
 

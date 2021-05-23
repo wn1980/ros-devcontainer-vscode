@@ -221,7 +221,21 @@ RUN echo 'source /home/developer/workspace/catkin_ws/devel/setup.bash' >> ~/.bas
 #COPY .devcontainer/bot.conf /etc/supervisor/conf.d/bot.conf
 #COPY .devcontainer/vscode.conf /etc/supervisor/conf.d/vscode.conf
 
-RUN echo "source ~/.bashrc" >> ~/.bash_profile 
+# make X forward for ssh
+#REF: https://unix.stackexchange.com/questions/12755/how-to-forward-x-over-ssh-to-run-graphics-applications-remotely
+RUN echo "source ~/.bashrc" >> ~/.bash_profile && \
+    mkdir -p ~/.ssh && \
+    touch ~/.ssh/config && \
+    echo "ForwardX11 yes" > ~/.ssh/config 
+
+# run default command after ssh login
+#REF: https://askubuntu.com/questions/397674/run-scripts-automatically-in-server-after-ssh-connection
+#ISSUE: https://stackoverflow.com/questions/25207909/tmux-open-terminal-failed-not-a-terminal
+#RUN echo "source ~/.bashrc" >> ~/.bash_profile && \
+#    mkdir -p ~/.ssh && \
+#    touch ~/.ssh/rc && \
+#    echo -e "#!/bin/bash\n /usr/bin/tmux new-session -s \$USER -d" > ~/.ssh/rc && \
+#    chmod a+x ~/.ssh/rc
 
 EXPOSE 3000 8888 2222
 
