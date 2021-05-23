@@ -117,7 +117,7 @@ RUN sed -i -e 's/http:\/\/archive/mirror:\/\/mirrors/' -e 's/http:\/\/security/m
 
 RUN mkdir -p /etc/supervisor/conf.d
 COPY .devcontainer/supervisord.conf /etc/supervisor/supervisord.conf
-COPY .devcontainer/theia.conf /etc/supervisor/conf.d/theia.conf
+#COPY .devcontainer/theia.conf /etc/supervisor/conf.d/theia.conf
 COPY .devcontainer/jupyter.conf /etc/supervisor/conf.d/jupyter.conf
 
 COPY .devcontainer/entrypoint.sh /entrypoint.sh
@@ -200,14 +200,14 @@ ADD .devcontainer/templates /home/developer/templates
 RUN sudo chown -R developer:developer /home/developer
 
 # install theia web IDE
-COPY .devcontainer/latest.package.json /home/developer/package.json
+#COPY .devcontainer/latest.package.json /home/developer/package.json
 #COPY .devcontainer/next.package.json /home/developer/package.json
 
-RUN yarn --cache-folder ./ycache && rm -rf ./ycache && \
-    NODE_OPTIONS="--max_old_space_size=4096" yarn theia build && \
-    yarn theia download:plugins
+#RUN yarn --cache-folder ./ycache && rm -rf ./ycache && \
+#    NODE_OPTIONS="--max_old_space_size=4096" yarn theia build && \
+#    yarn theia download:plugins
 
-ENV THEIA_DEFAULT_PLUGINS local-dir:/home/developer/plugins
+#ENV THEIA_DEFAULT_PLUGINS local-dir:/home/developer/plugins
 
 # enable jupyter extensions
 RUN jupyter nbextension enable hinterland/hinterland && \
