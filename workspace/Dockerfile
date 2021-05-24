@@ -103,6 +103,11 @@ RUN apt-get update && \
 #    catkin_make install -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros/$ROS_DISTRO -DCATKIN_ENABLE_TESTING=0 && \
 #    cd / && rm -r /bio_ik_ws
 
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+    libxml2-dev libxslt1-dev python-dev
+
 # basic python packages
 RUN if [ $(lsb_release -cs) = "focal" ]; then apt-get install -y python-is-python3; fi && \
     curl -kL https://bootstrap.pypa.io/pip/2.7/get-pip.py | python && \
