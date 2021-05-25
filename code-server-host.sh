@@ -4,15 +4,20 @@ set -e
 
 VERSION=3.10.2
 
-# install code-server
-wget https://github.com/cdr/code-server/releases/download/v${VERSION}/code-server_3.10.2_$(dpkg --print-architecture).deb && \
-    sudo dpkg -i code-server_${VERSION}_$(dpkg --print-architecture).deb
-
+# install supervisor
 sudo apt update && sudo apt install -y \
     supervisor \
     wget
 
+sudo service supervisor restart
+
+# install code-server
+wget https://github.com/cdr/code-server/releases/download/v${VERSION}/code-server_3.10.2_$(dpkg --print-architecture).deb && \
+    sudo dpkg -i code-server_${VERSION}_$(dpkg --print-architecture).deb
+
 echo -e "\n===================Configuring code-server ...\n================="
+
+sudo touch /etc/supervisor/conf.d/code-server.conf
 
 sudo cat > "/etc/supervisor/conf.d/code-server.conf" <<EOF
 [program:code-server]
