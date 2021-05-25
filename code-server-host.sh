@@ -6,7 +6,7 @@ VERSION=3.10.2
 
 # install code-server
 wget https://github.com/cdr/code-server/releases/download/v${VERSION}/code-server_3.10.2_$(dpkg --print-architecture).deb && \
-    dpkg -i code-server_${VERSION}_$(dpkg --print-architecture).deb
+    sudo dpkg -i code-server_${VERSION}_$(dpkg --print-architecture).deb
 
 sudo apt update && sudo apt install -y \
     supervisor \
