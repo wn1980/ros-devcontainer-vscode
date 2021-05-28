@@ -1,3 +1,4 @@
 .vscode/ipch
 *~
 .env
+code-server_*.deb

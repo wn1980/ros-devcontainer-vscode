@@ -59,22 +59,27 @@ services:
     #ipc: host
     security_opt:
     - seccomp:unconfined
-    ports:
-    #- "3000:3000"
-    - "8888:8888"
-    - "8338:8338"
+    volumes_from:
+      - xserver
+    depends_on:
+      - xserver
+      - rosbridge
+    privileged: true
+    devices:
+        - "/dev:/dev"
     volumes:
     - workspace:/workspace
     - ~/.gitconfig:/home/developer/.gitconfig
+    - "/run/systemd:/run/systemd"
+    - "/dev:/dev"
     environment:
     - DISPLAY=:1
     - ROS_MASTER_URI=http://rosbridge:11311
     - QT_X11_NO_MITSHM=1
-    volumes_from:
-    - xserver
-    depends_on:
-    - xserver
-    - rosbridge
+    ports:
+      #- "3000:3000"
+      - "8888:8888"
+      - "8338:8338"
   webui:
     build: ./webui
     image: wn1980/webui${TAG}
