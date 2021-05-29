@@ -4,6 +4,23 @@ set -e
 
 VERSION=3.10.2
 
+#if ! command -v code-server &> /dev/null
+#then
+#    echo "code-server could not be found"
+#    exit
+#fi
+
+if ! type -P code-server
+then 
+
+    echo -e "\n===================\nInstall code-server...\n================="    
+
+    # install code-server
+    wget https://github.com/cdr/code-server/releases/download/v${VERSION}/code-server_3.10.2_$(dpkg --print-architecture).deb && \
+    sudo dpkg -i code-server_${VERSION}_$(dpkg --print-architecture).deb && \
+    rm -f code-server_${VERSION}_$(dpkg --print-architecture).deb
+
+<<'###'
 # install supervisor
 sudo apt update && sudo apt install -y \
     supervisor \
@@ -11,11 +28,9 @@ sudo apt update && sudo apt install -y \
 
 sudo service supervisor restart
 
-# install code-server
-wget https://github.com/cdr/code-server/releases/download/v${VERSION}/code-server_3.10.2_$(dpkg --print-architecture).deb && \
-    sudo dpkg -i code-server_${VERSION}_$(dpkg --print-architecture).deb
 
-echo -e "\n===================Configuring code-server ...\n================="
+
+echo -e "\n===================\nConfiguring code-server ...\n================="
 
 sudo touch /etc/supervisor/conf.d/code-server.conf
 
@@ -34,7 +49,11 @@ stderr_logfile_maxbytes=0
 EOF
 
 sudo supervisorctl reread && supervisorctl update
+###
 
-echo -e "\n===================Install code-server complete...\n================="
+echo -e "\n===================\nInstall code-server complete...\n================="    
+                                                  
+fi   
 
-echo -e "\n===================Access: http://hostname:9889\n================="
+#run code-server
+code-server --bind-addr 0.0.0.0:9889 --cert --auth none
