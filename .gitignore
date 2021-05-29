@@ -2,3 +2,4 @@
 *~
 .env
 code-server_*.deb
+nohup.out
