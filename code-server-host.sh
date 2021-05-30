@@ -56,5 +56,6 @@ echo -e "\n===================\nInstall code-server complete...\n===============
 fi   
 
 #run code-server
-nohup code-server --bind-addr 0.0.0.0:9889 --cert --auth none &
-cat ./nohup.out
+nohup code-server --bind-addr 0.0.0.0:9889 --cert --auth none & 
+
+cat nohup.out
