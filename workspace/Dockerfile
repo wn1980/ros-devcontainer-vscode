@@ -87,6 +87,7 @@ RUN apt-get update && \
     ros-$ROS_DISTRO-ros-numpy \
     openssh-server \
     tmux \
+    terminator \
     nano && \
     npm install -g yarn && \
     echo developer ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/developer && \
