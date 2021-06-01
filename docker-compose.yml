@@ -80,6 +80,26 @@ services:
       #- "3000:3000"
       - "8888:8888"
       - "8338:8338"
+  
+  joystick:
+    build: ./joystick
+    image: wn1980/joystick${tag}
+    depends_on:
+      - rosbridge
+    container_name: ros_joystick
+    restart: unless-stopped
+    privileged: true
+    #command: stdbuf -o L roslaunch --wait start.launch
+    #command: stdbuf -o L roslaunch --wait turtlebot_lidar_teleop joystick.launch
+    #command: stdbuf -o L roslaunch --wait teleop_twist_joy teleop.launch
+    devices:
+      - "/dev/input:/dev/input"
+    volumes:
+      - "/dev/input:/dev/input"
+      - "/etc/localtime:/etc/localtime:ro"
+    environment:
+      - "ROS_MASTER_URI=http://rosbridge:11311"
+  
   webui:
     build: ./webui
     image: wn1980/webui${TAG}

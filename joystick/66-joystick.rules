@@ -1,0 +1,1 @@
+ATTRS{idVendor}=="0079", ATTRS{idProduct}=="0126", SUBSYSTEMS=="usb", ACTION=="add", MODE="0666", GROUP="input" SYMLINK+="joystick"
