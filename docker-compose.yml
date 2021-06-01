@@ -83,7 +83,7 @@ services:
   
   joystick:
     build: ./joystick
-    image: wn1980/joystick${tag}
+    image: wn1980/joystick${TAG}
     depends_on:
       - rosbridge
     container_name: ros_joystick
