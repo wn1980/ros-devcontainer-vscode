@@ -16,7 +16,7 @@ RUN apt-get update && \
 	ros-$ROS_DISTRO-teleop-twist-joy \
 	joystick
 
-COPY ./start.launch /
+COPY ./start.launch ./holonomic.config.yaml /
 
 RUN usermod -aG dialout root && \
 	usermod -aG plugdev root && \
