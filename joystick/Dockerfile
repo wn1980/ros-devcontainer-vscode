@@ -19,7 +19,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-COPY ./start.launch /
+COPY ./start.launch ./holonomic.config.yaml /
 
 RUN usermod -aG dialout root && \
 	usermod -aG plugdev root && \
