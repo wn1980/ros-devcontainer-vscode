@@ -90,7 +90,9 @@ RUN apt-get update && \
     npm install -g yarn && \
     echo developer ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/developer && \
     chmod 0440 /etc/sudoers.d/developer && \
-    apt-get clean
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # install bio_ik
 #RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
@@ -105,7 +107,12 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
-    libxml2-dev libxslt1-dev python-dev
+    libxml2-dev \
+    libxslt1-dev \
+    python-dev && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # basic python packages
 RUN if [ $(lsb_release -cs) = "focal" ]; then apt-get install -y python-is-python3; fi && \

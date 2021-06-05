@@ -10,7 +10,9 @@ RUN rosdep init && rosdep update
 
 RUN apt-get update && \
     apt-get install -y curl apt-transport-https && \
-    apt-get clean
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN  apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
@@ -28,7 +30,9 @@ RUN apt-get update && \
     ros-$ROS_DISTRO-turtlebot-gazebo \
     python-pip && \
     pip install -U --no-cache-dir supervisor supervisor_twiddler && \
-    apt-get clean
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ADD ros_entrypoint.sh /
 

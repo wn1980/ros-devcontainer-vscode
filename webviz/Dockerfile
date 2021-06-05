@@ -9,7 +9,13 @@ RUN git clone https://github.com/cruise-automation/webviz.git /app
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y chromium
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+    chromium \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Build static webviz
 RUN npm update caniuse-lite browserslist && \
